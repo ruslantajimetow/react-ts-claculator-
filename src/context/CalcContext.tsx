@@ -13,9 +13,9 @@ interface CalcProviderProp {
 }
 
 export type Calc = {
-  sign: string;
+  sign: string | number;
   num: number | string;
-  res: number;
+  res: number | string;
 };
 
 type ProviderValue = {

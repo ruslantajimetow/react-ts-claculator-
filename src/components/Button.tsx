@@ -52,10 +52,51 @@ function Button({ value }: ButtonProps) {
     setCalc({ ...calc, num: numberValue });
   };
 
+  const signClick = () => {
+    setCalc({
+      sign: value,
+      res: !calc.res && calc.num ? calc.num : calc.res,
+      num: 0,
+    });
+  };
+
+  const equalsClick = () => {
+    if (calc.res && calc.num) {
+      const math = (a: number, b: number, sign: string) => {
+        const result = {
+          '+': (a: number, b: number) => a + b,
+          x: (a: number, b: number) => a * b,
+          '/': (a: number, b: number) => a / b,
+          '-': (a: number, b: number) => a - b,
+        };
+        return result[sign](a, b);
+      };
+      setCalc({
+        res: math(calc.res, calc.num, calc.sign),
+        sign: '',
+        num: 0,
+      });
+    }
+  };
+
+  const percentClick = () => {
+    setCalc({
+      num: calc.num / 100,
+      res: calc.res / 100,
+      sign: '',
+    });
+  };
+
   const handleBtnClick = () => {
     const results = {
       '.': commaClick,
       C: reset,
+      '+': signClick,
+      '/': signClick,
+      x: signClick,
+      '-': signClick,
+      '=': equalsClick,
+      '%': percentClick,
     };
 
     if (results[value]) {
